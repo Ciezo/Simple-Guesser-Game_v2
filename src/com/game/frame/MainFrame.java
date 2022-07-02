@@ -23,6 +23,9 @@ package com.game.frame;
 import javax.swing.*;
 import java.awt.*;
 import com.game.input.*;
+import com.algo.guess.Guesser;
+import com.customevent.FormEvent;
+import com.customevent.FormListener;
 import com.game.feedback.*;
 
 public class MainFrame extends JFrame {
@@ -30,6 +33,9 @@ public class MainFrame extends JFrame {
     // Custom Panels 
     InputPanel inputPanel; 
     FeedbackPanel feedbackPanel; 
+
+    // Guesser Algorithm and instantiate it
+    Guesser guess = new Guesser();
 
     // Labels
     JLabel gameHeader;  
@@ -47,6 +53,46 @@ public class MainFrame extends JFrame {
 
         // Add components to this frame class 
         initComponents();
+
+        // Set up a fresh RGN for every instance of the MainFrame
+        guess.setRGN();
+
+        /**
+         * @NOTE: Custom event handling
+         */
+        inputPanel.setFormListener(new FormListener() {
+            @Override
+            public void formEventOccurred(FormEvent e) {
+                // Get the number from the generated event object
+                int guess_input = e.getParsed_int(); 
+                
+                // Get the generated number which is the number to guess
+                int number_to_guess = guess.getRGN(); 
+                /* Log that into console */
+                System.out.println("Number to guess: " + number_to_guess);
+                /* Start up the guess checker */
+                guess.guessChecker(guess_input); 
+                /* Set up the flag */
+                int to_check = guess.getCheckerFlag(); 
+                /**
+                 * @NOTE: 
+                 *      These are conditions to see about the result of guesser checker 
+                 *      and its algorithm
+                 */
+                // Guess input is lower
+                if (to_check == 1) {
+                    feedbackPanel.appendText(feedbackPanel.getMsg3()); 
+                }
+                // Guess input is higher
+                else if(to_check == 2) {
+                    feedbackPanel.appendText(feedbackPanel.getMsg2());
+                }
+                // Guess input is winner ; RGN == GUESS INPUT
+                else if(to_check == 3) {
+                    feedbackPanel.appendText(feedbackPanel.getMsg1());
+                }
+            }
+        });
         
         // Pack up the frame 
         pack(); 
@@ -69,7 +115,7 @@ public class MainFrame extends JFrame {
         /* Add components to frame */  
         add(gameHeader, BorderLayout.NORTH); 
         add(inputPanel, BorderLayout.WEST); 
-        add(feedbackPanel, BorderLayout.EAST); 
+        add(feedbackPanel, BorderLayout.EAST);         
     }
 
     public static void main(String[] args) {

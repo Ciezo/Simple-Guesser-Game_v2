@@ -24,6 +24,8 @@ package com.game.input;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import com.customevent.FormEvent;
+import com.customevent.FormListener;
 
 public class InputPanel extends JPanel {
     
@@ -34,7 +36,25 @@ public class InputPanel extends JPanel {
     private JTextField user_input; 
 
     // Integer for parsing String 
-    private int number_input_parsedAsInt; 
+    private int number_input_parsedAsInt = 0; 
+
+    // Custom Event Listener 
+    private FormListener formListener; 
+
+    /**
+     * @NOTE:
+     *      This is our custom event listener object. 
+     *      And we can use this to handle our custom events 
+     *      which is from the user input
+     * 
+     */
+    public void setFormListener(FormListener formListener) {
+        this.formListener = formListener; 
+    }
+
+    public FormListener getFormListener() {
+        return formListener; 
+    }
 
     public InputPanel() {
         
@@ -84,13 +104,20 @@ public class InputPanel extends JPanel {
                     System.out.println("USER HAS PRESSED <ENTER> KEY");
                     String inputFromText = user_input.getText();
                     System.out.println("Input: " + inputFromText);
-
                     /* Fetch the text input and parse it into integer */
                     number_input_parsedAsInt = Integer.parseInt(inputFromText);
                     System.out.println("Parsed String input as integer: " + number_input_parsedAsInt); 
-
+                    
                     /* Then pass that number to our public method */ 
+                    setParsed_userInput(number_input_parsedAsInt);
                     getParsed_userInput(); 
+                    
+                    /* Start to register an event source by using our custom event handler */
+                    FormEvent event = new FormEvent(this, number_input_parsedAsInt); 
+                    /* If the form listener receives a notification */
+                    if (formListener != null) {
+                        formListener.formEventOccurred(event); 
+                    }
                 }
 
             }
@@ -99,6 +126,10 @@ public class InputPanel extends JPanel {
             public void keyReleased(KeyEvent e) {}
         });
 
+    }
+
+    public void setParsed_userInput(int number_input_parsedAsInt) {
+        this.number_input_parsedAsInt = number_input_parsedAsInt;
     }
 
     public int getParsed_userInput() {
