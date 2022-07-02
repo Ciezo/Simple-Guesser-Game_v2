@@ -33,6 +33,9 @@ public class InputPanel extends JPanel {
     // Text field 
     private JTextField user_input; 
 
+    // Integer for parsing String 
+    private int number_input_parsedAsInt; 
+
     public InputPanel() {
         
         // Initialize properties of this panel 
@@ -83,11 +86,11 @@ public class InputPanel extends JPanel {
                     System.out.println("Input: " + inputFromText);
 
                     /* Fetch the text input and parse it into integer */
-                    int number = Integer.parseInt(inputFromText);
-                    System.out.println("Parsed String input as integer: " + number); 
+                    number_input_parsedAsInt = Integer.parseInt(inputFromText);
+                    System.out.println("Parsed String input as integer: " + number_input_parsedAsInt); 
 
                     /* Then pass that number to our public method */ 
-                    getParsed_userInput(number); 
+                    getParsed_userInput(); 
                 }
 
             }
@@ -98,9 +101,9 @@ public class InputPanel extends JPanel {
 
     }
 
-    public int getParsed_userInput(int num_input) {
-        System.out.println("Returning parsed input: " + num_input);
-        return num_input; 
+    public int getParsed_userInput() {
+        System.out.println("Returning parsed input: " + number_input_parsedAsInt);
+        return number_input_parsedAsInt; 
     }
 
     /**
