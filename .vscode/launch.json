@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch MainFrame",
+            "request": "launch",
+            "mainClass": "com.game.frame.MainFrame",
+            "projectName": "Simple-Guesser-Game_v2_e39b074d"
+        },
+        {
+            "type": "java",
+            "name": "Launch FeedbackPanel",
+            "request": "launch",
+            "mainClass": "com.game.feedback.FeedbackPanel",
+            "projectName": "Simple-Guesser-Game_v2_e39b074d"
+        },
+        {
+            "type": "java",
+            "name": "Launch InputPanel",
+            "request": "launch",
+            "mainClass": "com.game.input.InputPanel",
+            "projectName": "Simple-Guesser-Game_v2_e39b074d"
+        }
+    ]
+}
